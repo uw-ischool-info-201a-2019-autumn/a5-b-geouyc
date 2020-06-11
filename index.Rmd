@@ -1,0 +1,63 @@
+---
+title: "Mass Shooting Data Report"
+author: "Geoffrey Cabatingan"
+date: "June 5, 2020"
+output: html_document
+---
+
+```{r setup, include = FALSE}
+source("analysis.R")
+library(dplyr)
+library(tidyverse)
+```
+
+## Summary of 'Shootings in 2018' Data
+
+In this data report, I summarized, parsed, and analyzed a CSV file containing reports of mass shootings in 2018 throughout the USA. Mass shootings refer to "four or more shot and/or killed in a single event [incident], at the same general time and location, not including the shooter", as understood by the Gun Violence Archive and the FBI, the collectors of the aforementioned data file. Our dataset consists of `r num_instances` shooting events with `r total_killed` lives lost in total. The city most affected by mass shootings was `r city_most_affected`, with the number of people killed determining how much a city was impacted (`r city_most_affected` lost `r num_most_affected` lives in 2018). Upon analyzing the data set further, I found that there were `r total_victims` total victims with `r state_most_victims` being the state with the most victims at `r num_most_victims`.
+
+## Summarizing Table
+
+Here is an accompanying summary table that conveys statistics of these incidents by state (in alphabetical order), showing the number of people killed, number of people injured, and the number of victims altogether.
+
+```{r data_by_state, echo = FALSE}
+library(knitr)
+kable(data_by_state,
+      col.names = c("State",
+                    "# Killed",
+                    "# Injured",
+                    "# of Victims"))
+```
+
+Through the data, we can see that Florida was the state with the most killed, while Illinois was the state with the most injured, and California with the most victims altogether. It's great that we can see the table containing the statistics, however I believe it would be best to look at the map, to get a spatial idea of which regions of the US suffered from the most mass shootings in 2018.
+
+## Thousand Oaks Shooting (11/07/18)
+
+On `r incident_date` in `r incident_city`, `r incident_state`, former marine, Ian David Long, showed up at Borderline Bar and Grill, `r incident_address`, and killed `r incident_killed` people, including himself. He was believed to have fired over 50 rounds with his Glock 45 and tossed smoke grenades while at the location. ACcording to KTLA news, Long legally purchased the weapon in August 2016 and also had a folding knife in his possession. While the exact motive remains unclear, the suspect's neighbors mentioned the possibility of him suffering from a mental breakdown. Exact details regarding the incident can be found [here](https://www.gunviolencearchive.org/incident/1249561?__cf_chl_jschl_tk__=bd279a5029d76724a5a454b9432e718966ed1b6b-1591564576-0-AY1LsqBwAUmCuCVFjMXaYeM-7YBT_m3iq3NV0J57XjwithhxtMsfJzBwm3ZMtwsxtVM4gHITnB16ALIaG7AZpRw5hDWraTO-X-ymFd_zOkaxEFTUoreXWkQHD90BJ-oUuLv09Tz9H6UojwnL-x8k7S4wH0CUZbj4we681RHCIfZvJW0WDiBeKTGs4Mv6Rm2E_TfYUjD92cWJ7YvIYkWR3y60dy8I2grboP7YXd_8DF7L9TF4zps3xmEdvInThgSHWiKaI3yrnBXD7tBOLQJRNqEgPsS4Pqr8pKt-anhq1lXx) along with my supporting article [here](https://ktla.com/news/nationworld/investigators-to-release-updated-timeline-of-thousand-oaks-mass-shooting-tuesday/).
+
+## An Interactive Map Portrayal
+
+Here is a spatial map of the shootings around the United States, with each incident dileneated by a blue circle. These circles vary in size based on the amount of victims involved in each incident, with bigger circles implying more victims and vice-versa. By clicking on the circles, you can see the city that the shooting took place in along with the number of people injured and the number of people killed.
+
+```{r interactive_map, echo = FALSE}
+library(leaflet)
+interactive_map
+```
+
+Through the interactive map, we can see that the MidWest along with the East regions of the United States suffered from the most mass shootings in 2018. Aside from that, we can also see that there are a group of states in the Northern-Central region that seem to not have had any mass shootings in 2018 at all, including Idaho, Montana, the Dakotas, and more.
+
+## Which Month in 2018 Suffered the Most Deaths?
+
+Up until now, we've gotten a firm understanding of which cities and states suffered from the most crime along with the spatial spread across the country, however there is still one aspect of the data we've failed to consider: when did these "mass shootings" occur, and in which month did they most occur?
+
+```{r bargraph_shootings, echo = FALSE}
+library(ggplot2)
+bargraph_shootings
+```
+
+I chose a bar graph as the visualization to get a quantitative idea of the number of deceased by month and see if there was a certain pattern in when these mass shootings occur based on social factors such as holidays or seasons. Through the data we can see are that the month of November suffered the most fatalities in 2018. Furthermore we can deduce that there seems to be no correlation between social factors and mass shootings, given the spread and randomness of the data. However, meaningful or not, we can see a slow rise in these mass shootings for 4 months starting in March, followed by a sudden drop and the same pattern for the next 4 months.
+
+## Reflection
+
+Data reports such as mine that regard crime statistics have a great deal of importance in assisting the prohibition of crime around the country. The data, solely providing geographical analysis, can give educational insight on specific hot zones for crime such as O'Neil states in her book regarding WMDs. However, this geographical analysis comes with negative effects, such as a voluntary racial targeting that enforcement agencies might undertake while using this data. It wouldn't be fair to say that the data implies a racist approach necessarily, however these agencies such as the police may consider external factors such as race population within a certain crime zone and constantly return to the same location arresting people of similar profiles, creating a harmful feedback loop.
+
+
